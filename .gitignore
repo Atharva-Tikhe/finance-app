@@ -24,3 +24,5 @@ vite.config.ts.timestamp-*
 
 # NPM
 node_modules
+
+src/lib/db.ts
