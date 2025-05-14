@@ -1,6 +1,6 @@
 import { json, type RequestHandler } from "@sveltejs/kit";
 
-import {db} from '$lib/db'
+// import {db} from '$lib/db'
 
 export const GET: RequestHandler = ({request}) => {
     return json({message : 'hey'})

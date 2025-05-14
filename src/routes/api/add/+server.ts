@@ -1,6 +1,6 @@
-import { json } from "@sveltejs/kit";
+import { error, json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
-import {db} from '$lib/db';
+import prisma from '$lib/db';
 
 
 const regex =  /Sent Rs\.(?<amount>\d+\.\d{2})\s+From (?<from>.+?) Bank.*?\s+To (?<to>.+?)\s+On (?<date>\d{2}\/\d{2}\/\d{2})/s;
@@ -8,15 +8,21 @@ const regex =  /Sent Rs\.(?<amount>\d+\.\d{2})\s+From (?<from>.+?) Bank.*?\s+To 
 export const POST: RequestHandler = async ({request}) => {
     let data : {'amount': String} = await request.json()
     const match = data.amount.match(regex)
-    console.log(match)
+
     if (match && match.groups) {
         const {amount, from, to, date} = match.groups;
         try {
+            const rows = await prisma.transaction.create({data: {
+                amount: amount,
+                sender: from,
+                receiver: to,
+                transac_date: date
+            }})
             // @ts-ignore
-            const [rows] = await db.execute('INSERT INTO transaction (amount, sender, receiver, transac_date) VALUES (?, ?, ?, ?)', [amount, from, to, date])
+            // const [rows] = await db.execute('INSERT INTO transaction (amount, sender, receiver, transac_date) VALUES (?, ?, ?, ?)', [amount, from, to, date])
             return json({ success: true, message: 'Data inserted successfully', data: rows })
         }catch {
-            console.log('lol')
+            return json({'error': 'something went wrong'})
         }
         console.log(`the amount was : ${amount}`)
         return json({'metadata': request.headers, 'data': data})

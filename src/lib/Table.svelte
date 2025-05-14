@@ -2,10 +2,11 @@
     import { gsap } from "gsap";
     import {TabulatorFull as Tabulator} from 'tabulator-tables';
     import { onMount } from 'svelte';
-    const {data} : any = $props();
+    
+    const {data} = $props();
 
     let tableComponent: HTMLDivElement;
-    console.log(data.transactions)
+    console.log(data)
     onMount(() => {
         new Tabulator(tableComponent, {
             data : data.transactions,

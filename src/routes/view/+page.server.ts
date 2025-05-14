@@ -1,17 +1,20 @@
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import {db} from '$lib/db';
+import prisma from '$lib/db';
+
+
+type allRows =  {transactions: [{amount: String, from: String, to:String, date: String }]}
 
 export const load: PageServerLoad = async () => {
     try {
-        // @ts-ignore
-        const rows = await db.query('SELECT * FROM transaction ORDER BY transac_date DESC');
-        return {transactions : rows[0]}
+        const rows = await prisma.transaction.findMany();
+        const data: allRows = {transactions: rows}
+        return data
 
       } catch (error) {
         console.error(error);
         return {
-          transactions: []
+          transactions: ''
         };
       }
 

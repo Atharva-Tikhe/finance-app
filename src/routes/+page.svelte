@@ -15,7 +15,7 @@
     </form>
 </div>
 
-<a href="/view"> Go to View</a>
+<!-- <a href="/view"> Go to View</a> -->
 
 <style>
     .container {
