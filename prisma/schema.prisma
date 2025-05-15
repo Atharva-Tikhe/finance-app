@@ -3,17 +3,17 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model logins {
   uid      Int    @id @default(autoincrement())
-  username String @unique(map: "username") @db.VarChar(10)
+  username String @unique @db.VarChar(15)
   pass     String @db.VarChar(255)
 }
 
-model transaction {
+model transactions {
   id           Int     @id @default(autoincrement())
   sender       String? @db.VarChar(10)
   receiver     String? @db.VarChar(100)

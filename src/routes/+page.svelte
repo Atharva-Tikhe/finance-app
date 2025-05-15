@@ -3,7 +3,7 @@
 </script>
 
 <div class="container">
-    <form action="/api/login" method="post">
+    <form method="post">
     
         <label for="username">Username:</label>
         <input type="text" name="username" id="username">

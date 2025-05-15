@@ -12,7 +12,7 @@ export const POST: RequestHandler = async ({request}) => {
     if (match && match.groups) {
         const {amount, from, to, date} = match.groups;
         try {
-            const rows = await prisma.transaction.create({data: {
+            const rows = await prisma.transactions.create({data: {
                 amount: amount,
                 sender: from,
                 receiver: to,
